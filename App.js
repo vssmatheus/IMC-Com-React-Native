@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 
+
 import {
  StyleSheet,
  Text,
@@ -26,6 +27,8 @@ export default class App extends React.Component {
     this.state = {altura:0,massa:0,resultado:0,resultadoText:""}
     this.calcular = this.calcular.bind(this)
   }
+
+
   calcular(){
    let imc = this.state.massa / (this.state.altura * this.state.altura)
    let s = this.state
@@ -55,9 +58,15 @@ export default class App extends React.Component {
       s.resultadoText ='Obesidade Grau 3°'
     }
    this.setState(s)
+  }
 
-
-
+   apagarDadosForm = () =>{
+    this.setState({
+      altura:0,
+      massa:0,
+      resultado:0,
+      resultadoText: "",
+    })
   }
 
   render() {
@@ -71,14 +80,27 @@ export default class App extends React.Component {
           </View>
 
           <View style={styles.entrada}>
-            <TextInput autoCapitalize="none" placeholder="Altura" keyboardType="numeric" style={styles.input} onChangeText={(altura)=>{this.setState({altura})}}/>
-            <TextInput autoCapitalize="none" placeholder="Massa"  keyboardType="numeric" style={styles.input} onChangeText={(massa)=>{this.setState({massa})}}/>
+
+            <TextInput value={this.state.altura} autoCapitalize="none"
+              placeholder="Altura" returnKeyType="go" maxLength={4} keyboardType="numeric" 
+              style={styles.input} onChangeText={(altura)=>{this.setState({altura})}}/>
+
+            <TextInput value={this.state.massa} autoCapitalize="none" 
+              placeholder="Massa" returnKeyType="go" maxLength={3} keyboardType="numeric" 
+              style={styles.input} onChangeText={(massa)=>{this.setState({massa})}}/>
+
           </View>
+
           <TouchableOpacity style={styles.button} onPress={this.calcular}>
             <Text style={styles.buttontext}>Calcular</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button2} onPress={this.apagarDadosForm}>
+            <Text style={styles.buttontext2}>Limpar</Text>
+          </TouchableOpacity>
+
           <Text style={styles.resultado}>{this.state.resultado.toFixed(2)}</Text>
-          <Text style={[styles.resultado,{fontSize:30}]}>{this.state.resultadoText}</Text>
+          <Text style={[styles.resultado,{fontSize:18}]}>{this.state.resultadoText}</Text>
         </View>
     </View>
     );
@@ -87,35 +109,34 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0A2229',
-    
-
   },
-  calculoContent:{
+
+    calculoContent:{
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 100,
     marginTop: 20
 
   },
-
+  
   entrada:{
     flexDirection:'row',
     
   },
   input:{
-    height: 68,
+    height: 50,
     textAlign:"center",
     width:"45%",
-    fontSize: 35,
-    marginTop:34,
+    fontSize: 25,
+    marginTop: 34,
     margin:5,
     marginBottom: 15,
     fontWeight:'bold',
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#fff',
     borderRadius: 40
    
   },
@@ -126,17 +147,34 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    borderRadius: 30,
    width: 330,
-   height: 60,
+   height: 50,
    borderWidth: 2,
    borderColor:'#63FDBC',
    
   },
+  button2:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+    borderRadius: 30,
+    width: 330,
+    height: 50,
+    borderWidth: 2,
+    borderColor: '#63FDBC'
+  },
   buttontext:{
     textAlign:"center",
     padding:30,
-    fontSize:35,
+    fontSize:28,
     fontWeight:'bold',
     color:"#0A2229",
+  },
+  buttontext2:{
+    textAlign: "center",
+    padding: 30,
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: "#01AE66"
   },
   resultado:{
     alignSelf:"center",
@@ -148,14 +186,12 @@ const styles = StyleSheet.create({
   logoContainer:{
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems:'center',
-    fontSize: 20,
-    color: '#A9F5E1'   
+    alignItems:'center'   
   },
   logoText:{
-    flex: 1.5,
+    flex: 2.7,
     alignItems:'center',
-    fontSize: 100,
+    fontSize: 80,
     marginBottom: 5,
     fontFamily:'verdana',
     fontWeight:'bold',
@@ -164,7 +200,7 @@ const styles = StyleSheet.create({
   logoText2:{
     flex: 1,
     alignItems:'center',
-    fontSize: 15,
+    fontSize: 12,
     fontFamily:'verdana',
     color: '#A9F5E1'
   }
